@@ -11,7 +11,6 @@ class User(db.Model):
     first_name: Mapped[str] = mapped_column(nullable=False)
     last_name: Mapped[str] = mapped_column(nullable=False)
     
-    
     def serialize(self):
         return {
             "id": self.id,
@@ -19,13 +18,12 @@ class User(db.Model):
             "first_name": self.first_name,
             "last_name": self.last_name
         }
-    
 
 class Post(db.Model):
     __tablename__ = "posts"
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
-    Media: Mapped[list["Media"]] = relationship("Media",back_populate = "post")
+    media: Mapped[list["Media"]] = relationship("Media", back_populates="post")  # Corregido
 
     def serialize(self):
         return {
@@ -67,7 +65,7 @@ class Media(db.Model):
     url: Mapped[str] = mapped_column(String(200), nullable=False)
     type: Mapped[str] = mapped_column(String(50), nullable=False)  
     post_id: Mapped[int] = mapped_column(ForeignKey('posts.id'), nullable=True)  
-    
+    post: Mapped["Post"] = relationship("Post", back_populates="media")  # Corregido
 
     def serialize(self):
         return {
