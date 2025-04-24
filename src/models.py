@@ -23,7 +23,7 @@ class Post(db.Model):
     __tablename__ = "posts"
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
-    media: Mapped[list["Media"]] = relationship("Media", back_populates="post")  # Corregido
+    media: Mapped[list["Media"]] = relationship("Media", back_populates="post") 
 
     def serialize(self):
         return {
@@ -65,7 +65,7 @@ class Media(db.Model):
     url: Mapped[str] = mapped_column(String(200), nullable=False)
     type: Mapped[str] = mapped_column(String(50), nullable=False)  
     post_id: Mapped[int] = mapped_column(ForeignKey('posts.id'), nullable=True)  
-    post: Mapped["Post"] = relationship("Post", back_populates="media")  # Corregido
+    post: Mapped["Post"] = relationship("Post", back_populates="media")  
 
     def serialize(self):
         return {
